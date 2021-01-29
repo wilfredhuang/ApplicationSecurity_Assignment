@@ -48,6 +48,8 @@
             }
             document.getElementById("progresslabel").innerHTML = strength;
             document.getElementById("progress").value = progress;
+
+            
         }
     </script>
 </asp:Content>

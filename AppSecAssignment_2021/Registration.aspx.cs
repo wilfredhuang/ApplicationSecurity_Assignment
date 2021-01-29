@@ -101,10 +101,11 @@ namespace AppSecAssignment_2021
             // Prevent XSS by sanitizing the user input with htmlencode
             var firstName = HttpUtility.HtmlEncode(tb_firstName.Text);
             var lastName = HttpUtility.HtmlEncode(tb_lastName.Text);
-            var emailAddress = HttpUtility.HtmlEncode(tb_emailAddress.Text);
             var password = HttpUtility.HtmlEncode(tb_password.Text);
-            var dob = HttpUtility.HtmlEncode(tb_dob.Text);
+            var emailAddress = HttpUtility.HtmlEncode(tb_emailAddress.Text);
             var creditCardInfo = HttpUtility.HtmlEncode(tb_creditCardInfo.Text);
+            DateTime dob = Convert.ToDateTime(tb_dob.Text);
+
 
             var pwdStrength = checkPassword(password);
 
@@ -116,7 +117,18 @@ namespace AppSecAssignment_2021
 
             else
             {
-                Response.Redirect("~/Login.aspx");
+                AS_Service_Reference.Service1Client client = new AS_Service_Reference.Service1Client();
+                int result = client.CreateUser(firstName, lastName, password, emailAddress, creditCardInfo, dob);
+                if (result == 1)
+                {
+                    RefreshGridView();
+                    lbMsg.ForeColor = Color.Green;
+                    lbMsg.Text = "Employee Record Inserted Successfully!";
+                }
+                else
+                    lbMsg.Text = "SQL Error. Insert Unsuccessful!";
+
+                //Response.Redirect("~/Login.aspx");
             }
 
 

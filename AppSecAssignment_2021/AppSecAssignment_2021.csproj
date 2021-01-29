@@ -44,6 +44,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -67,12 +69,36 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\AS_DB.mdf" />
+    <Content Include="App_Data\AS_DB_log.ldf">
+      <DependentUpon>AS_DB.mdf</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AS_Service_Reference\AppSecAssignment_2021.AS_Service_Reference.CompositeType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AS_Service_Reference\AppSecAssignment_2021.AS_Service_Reference.User.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\AS_Service_Reference\AS_DB_Service.Entity.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AS_Service_Reference\configuration91.svcinfo" />
+    <None Include="Connected Services\AS_Service_Reference\configuration.svcinfo" />
+    <None Include="Connected Services\AS_Service_Reference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
     <Content Include="Registration.aspx" />
     <Content Include="Login.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connected Services\AS_Service_Reference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -100,6 +126,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Connected Services\AS_Service_Reference\AS_DB_Service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AS_Service_Reference\service.wsdl" />
+    <None Include="Connected Services\AS_Service_Reference\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AS_Service_Reference\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <Content Include="MasterPage.Master" />
     <None Include="Web.Debug.config">
@@ -110,8 +146,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\AS_Service_Reference\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
