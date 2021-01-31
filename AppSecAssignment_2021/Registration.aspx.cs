@@ -15,7 +15,7 @@ namespace AppSecAssignment_2021
         {
            
             // Add Client-Side check for password strength, triggers when user input in the textbox
-            tb_password.Attributes.Add("onkeyup", "test();");
+            tb_password.Attributes.Add("onkeyup", "password_strength_feedback();");
         }
 
         private int checkPassword(string password)
@@ -87,16 +87,19 @@ namespace AppSecAssignment_2021
             }
 
             lbl_pwdchecker.Text = "Status: " + status;
+
             if (scores < 4)
             {
                 lbl_pwdchecker.ForeColor = Color.Red;
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "HideLabel();", true);
                 return;
+
             }
             lbl_pwdchecker.ForeColor = Color.Green;
             return;
         }
 
-        protected void btn_loginClick(object sender, EventArgs e)
+        protected void btn_RegisterClick(object sender, EventArgs e)
         {
             // Prevent XSS by sanitizing the user input with htmlencode
             var firstName = HttpUtility.HtmlEncode(tb_firstName.Text);
@@ -126,9 +129,6 @@ namespace AppSecAssignment_2021
 
         }
 
-        protected void pwdcheckerBtn_Click(object sender, EventArgs e)
-        {
 
-        }
     }
 }

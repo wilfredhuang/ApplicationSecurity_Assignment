@@ -132,15 +132,6 @@ namespace AppSecAssignment_2021
         protected global::System.Web.UI.WebControls.Label lbl_creditCardInfo;
 
         /// <summary>
-        /// pwdcheckerBtn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button pwdcheckerBtn;
-
-        /// <summary>
         /// tb_creditCardInfo control.
         /// </summary>
         /// <remarks>
