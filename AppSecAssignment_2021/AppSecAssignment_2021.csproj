@@ -79,6 +79,12 @@
     <Content Include="Connected Services\AS_Service_Reference\AppSecAssignment_2021.AS_Service_Reference.User.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <Content Include="CustomError\DefaultError.html" />
+    <Content Include="CustomError\HTTP403.html" />
+    <Content Include="CustomError\HTTP404.html" />
+    <Content Include="CustomError\HTTP500.html" />
+    <Content Include="Logout.aspx" />
+    <Content Include="Home.aspx" />
     <None Include="Connected Services\AS_Service_Reference\AS_DB_Service.Entity.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -89,6 +95,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Content Include="Global.asax" />
+    <Content Include="Success.aspx" />
     <Content Include="Web.config" />
     <Content Include="Registration.aspx" />
     <Content Include="Login.aspx" />
@@ -123,6 +130,27 @@
     </Compile>
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Success.aspx.cs">
+      <DependentUpon>Success.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Success.aspx.designer.cs">
+      <DependentUpon>Success.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Logout.aspx.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Logout.aspx.designer.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Home.aspx.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Home.aspx.designer.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

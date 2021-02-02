@@ -29,9 +29,9 @@ namespace AS_DB_Service
             return composite;
         }
 
-        public int CreateUser(string firstname, string lastname, string password, string email, string creditcardinfo, DateTime dob)
+        public int CreateUser(string firstname, string lastname, string passwordHash, string passwordSalt, string email, string creditcardinfo, string iv, string key, DateTime dob)
         {
-            User obj = new User(firstname , lastname, password, email, creditcardinfo, dob);
+            User obj = new User(firstname, lastname, passwordHash, passwordSalt, email, creditcardinfo, iv, key, dob);
             return obj.Insert();
         }
 
@@ -45,6 +45,18 @@ namespace AS_DB_Service
         {
             User obj = new User();
             return obj.SelectByEmail(email);
+        }
+
+        public string getDBHash(string email)
+        {
+            User obj = new User();
+            return obj.getDBHash(email);
+        }
+
+        public string getDBSalt(string email)
+        {
+            User obj = new User();
+            return obj.getDBSalt(email);
         }
     }
 }

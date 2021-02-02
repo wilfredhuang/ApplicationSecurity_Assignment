@@ -22,7 +22,7 @@ namespace AS_DB_Service
 
         [OperationContract]
 
-        int CreateUser(string firstname, string lastname, string password, string email, string creditcardinfo, DateTime dob);
+        int CreateUser(string firstname, string lastname, string passwordHash, string passwordSalt, string email, string creditcardinfo, string iv, string key, DateTime dob);
 
         [OperationContract]
 
@@ -31,6 +31,15 @@ namespace AS_DB_Service
         [OperationContract]
 
         User GetOneUser(string email);
+
+
+        [OperationContract]
+
+        string getDBHash(string email);
+
+        [OperationContract]
+
+        string getDBSalt(string email);
 
 
 

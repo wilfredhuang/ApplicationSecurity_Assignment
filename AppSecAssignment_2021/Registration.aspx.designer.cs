@@ -42,6 +42,15 @@ namespace AppSecAssignment_2021
         protected global::System.Web.UI.WebControls.TextBox tb_firstName;
 
         /// <summary>
+        /// lbl_fnFeedback control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_fnFeedback;
+
+        /// <summary>
         /// lbl_firstName0 control.
         /// </summary>
         /// <remarks>
@@ -60,6 +69,15 @@ namespace AppSecAssignment_2021
         protected global::System.Web.UI.WebControls.TextBox tb_lastName;
 
         /// <summary>
+        /// lbl_lnFeedback control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_lnFeedback;
+
+        /// <summary>
         /// lbl_emailAddress control.
         /// </summary>
         /// <remarks>
@@ -76,6 +94,15 @@ namespace AppSecAssignment_2021
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tb_emailAddress;
+
+        /// <summary>
+        /// lbl_emailFeedback control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_emailFeedback;
 
         /// <summary>
         /// lbl_password control.
@@ -105,6 +132,15 @@ namespace AppSecAssignment_2021
         protected global::System.Web.UI.WebControls.Label lbl_pwdchecker;
 
         /// <summary>
+        /// lbl_pwdFeedback control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_pwdFeedback;
+
+        /// <summary>
         /// lbl_dob control.
         /// </summary>
         /// <remarks>
@@ -121,6 +157,15 @@ namespace AppSecAssignment_2021
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tb_dob;
+
+        /// <summary>
+        /// lbl_dobFeedback control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_dobFeedback;
 
         /// <summary>
         /// lbl_creditCardInfo control.
@@ -141,6 +186,15 @@ namespace AppSecAssignment_2021
         protected global::System.Web.UI.WebControls.TextBox tb_creditCardInfo;
 
         /// <summary>
+        /// lbl_cciFeedback control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_cciFeedback;
+
+        /// <summary>
         /// btn_register control.
         /// </summary>
         /// <remarks>
@@ -148,5 +202,14 @@ namespace AppSecAssignment_2021
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btn_register;
+
+        /// <summary>
+        /// lbl_alertmsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_alertmsg;
     }
 }

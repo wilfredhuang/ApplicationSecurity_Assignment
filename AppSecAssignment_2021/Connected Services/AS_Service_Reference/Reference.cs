@@ -96,10 +96,19 @@ namespace AppSecAssignment_2021.AS_Service_Reference {
         private string FirstNameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string IVField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string KeyField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string LastNameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string PasswordField;
+        private string PasswordHashField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PasswordSaltField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -164,6 +173,32 @@ namespace AppSecAssignment_2021.AS_Service_Reference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public string IV {
+            get {
+                return this.IVField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.IVField, value) != true)) {
+                    this.IVField = value;
+                    this.RaisePropertyChanged("IV");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Key {
+            get {
+                return this.KeyField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.KeyField, value) != true)) {
+                    this.KeyField = value;
+                    this.RaisePropertyChanged("Key");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public string LastName {
             get {
                 return this.LastNameField;
@@ -177,14 +212,27 @@ namespace AppSecAssignment_2021.AS_Service_Reference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Password {
+        public string PasswordHash {
             get {
-                return this.PasswordField;
+                return this.PasswordHashField;
             }
             set {
-                if ((object.ReferenceEquals(this.PasswordField, value) != true)) {
-                    this.PasswordField = value;
-                    this.RaisePropertyChanged("Password");
+                if ((object.ReferenceEquals(this.PasswordHashField, value) != true)) {
+                    this.PasswordHashField = value;
+                    this.RaisePropertyChanged("PasswordHash");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string PasswordSalt {
+            get {
+                return this.PasswordSaltField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PasswordSaltField, value) != true)) {
+                    this.PasswordSaltField = value;
+                    this.RaisePropertyChanged("PasswordSalt");
                 }
             }
         }
@@ -216,10 +264,10 @@ namespace AppSecAssignment_2021.AS_Service_Reference {
         System.Threading.Tasks.Task<AppSecAssignment_2021.AS_Service_Reference.CompositeType> GetDataUsingDataContractAsync(AppSecAssignment_2021.AS_Service_Reference.CompositeType composite);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/CreateUser", ReplyAction="http://tempuri.org/IService1/CreateUserResponse")]
-        int CreateUser(string firstname, string lastname, string password, string email, string creditcardinfo, System.DateTime dob);
+        int CreateUser(string firstname, string lastname, string passwordHash, string passwordSalt, string email, string creditcardinfo, string iv, string key, System.DateTime dob);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/CreateUser", ReplyAction="http://tempuri.org/IService1/CreateUserResponse")]
-        System.Threading.Tasks.Task<int> CreateUserAsync(string firstname, string lastname, string password, string email, string creditcardinfo, System.DateTime dob);
+        System.Threading.Tasks.Task<int> CreateUserAsync(string firstname, string lastname, string passwordHash, string passwordSalt, string email, string creditcardinfo, string iv, string key, System.DateTime dob);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetAllUser", ReplyAction="http://tempuri.org/IService1/GetAllUserResponse")]
         AppSecAssignment_2021.AS_Service_Reference.User[] GetAllUser();
@@ -232,6 +280,18 @@ namespace AppSecAssignment_2021.AS_Service_Reference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetOneUser", ReplyAction="http://tempuri.org/IService1/GetOneUserResponse")]
         System.Threading.Tasks.Task<AppSecAssignment_2021.AS_Service_Reference.User> GetOneUserAsync(string email);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/getDBHash", ReplyAction="http://tempuri.org/IService1/getDBHashResponse")]
+        string getDBHash(string email);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/getDBHash", ReplyAction="http://tempuri.org/IService1/getDBHashResponse")]
+        System.Threading.Tasks.Task<string> getDBHashAsync(string email);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/getDBSalt", ReplyAction="http://tempuri.org/IService1/getDBSaltResponse")]
+        string getDBSalt(string email);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/getDBSalt", ReplyAction="http://tempuri.org/IService1/getDBSaltResponse")]
+        System.Threading.Tasks.Task<string> getDBSaltAsync(string email);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -277,12 +337,12 @@ namespace AppSecAssignment_2021.AS_Service_Reference {
             return base.Channel.GetDataUsingDataContractAsync(composite);
         }
         
-        public int CreateUser(string firstname, string lastname, string password, string email, string creditcardinfo, System.DateTime dob) {
-            return base.Channel.CreateUser(firstname, lastname, password, email, creditcardinfo, dob);
+        public int CreateUser(string firstname, string lastname, string passwordHash, string passwordSalt, string email, string creditcardinfo, string iv, string key, System.DateTime dob) {
+            return base.Channel.CreateUser(firstname, lastname, passwordHash, passwordSalt, email, creditcardinfo, iv, key, dob);
         }
         
-        public System.Threading.Tasks.Task<int> CreateUserAsync(string firstname, string lastname, string password, string email, string creditcardinfo, System.DateTime dob) {
-            return base.Channel.CreateUserAsync(firstname, lastname, password, email, creditcardinfo, dob);
+        public System.Threading.Tasks.Task<int> CreateUserAsync(string firstname, string lastname, string passwordHash, string passwordSalt, string email, string creditcardinfo, string iv, string key, System.DateTime dob) {
+            return base.Channel.CreateUserAsync(firstname, lastname, passwordHash, passwordSalt, email, creditcardinfo, iv, key, dob);
         }
         
         public AppSecAssignment_2021.AS_Service_Reference.User[] GetAllUser() {
@@ -299,6 +359,22 @@ namespace AppSecAssignment_2021.AS_Service_Reference {
         
         public System.Threading.Tasks.Task<AppSecAssignment_2021.AS_Service_Reference.User> GetOneUserAsync(string email) {
             return base.Channel.GetOneUserAsync(email);
+        }
+        
+        public string getDBHash(string email) {
+            return base.Channel.getDBHash(email);
+        }
+        
+        public System.Threading.Tasks.Task<string> getDBHashAsync(string email) {
+            return base.Channel.getDBHashAsync(email);
+        }
+        
+        public string getDBSalt(string email) {
+            return base.Channel.getDBSalt(email);
+        }
+        
+        public System.Threading.Tasks.Task<string> getDBSaltAsync(string email) {
+            return base.Channel.getDBSaltAsync(email);
         }
     }
 }
