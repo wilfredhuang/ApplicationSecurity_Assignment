@@ -36,7 +36,7 @@
                     <asp:Label ID="lbl_instruction" runat="server" Text="Change Password"></asp:Label>
                 </td>
                 <td class="auto-style2">
-                    <asp:TextBox ID="tb_changePwd" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="tb_changePwd" runat="server" TextMode="Password"></asp:TextBox>
                 </td>
                 <td>
                     <asp:Button ID="btn_submitChangePwd" runat="server" OnClick="btn_submitChangePwd_Click" Text="Submit" />

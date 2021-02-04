@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -50,96 +53,145 @@ namespace AppSecAssignment_2021
             // Get our DB service
             AS_Service_Reference.Service1Client client = new AS_Service_Reference.Service1Client();
 
-            // If Login Attempt < 3
-            if (Convert.ToInt32(Session["LoginAttempts"]) < 3)
+            if (ValidateCaptcha_v3())
             {
 
-                string email = HttpUtility.HtmlEncode(tb_email.Text.ToString().Trim());
-                string pwd = HttpUtility.HtmlEncode(tb_password.Text.ToString().Trim());
-                SHA512Managed hashing = new SHA512Managed();
 
-                string dbHash = client.getDBHash(email);
-                string dbSalt = client.getDBSalt(email);
-
-                try
+                // If Login Attempt < 3
+                if (Convert.ToInt32(Session["LoginAttempts"]) < 3)
                 {
-                    if (dbSalt != null && dbSalt.Length > 0 && dbHash != null && dbHash.Length > 0)
+
+                    string email = HttpUtility.HtmlEncode(tb_email.Text.ToString().Trim());
+                    string pwd = HttpUtility.HtmlEncode(tb_password.Text.ToString().Trim());
+                    SHA512Managed hashing = new SHA512Managed();
+
+                    string dbHash = client.getDBHash(email);
+                    string dbSalt = client.getDBSalt(email);
+
+                    try
                     {
-                        string pwdWithSalt = pwd + dbSalt;
-                        byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
-                        string userHash = Convert.ToBase64String(hashWithSalt);
-                        if (userHash.Equals(dbHash))
+                        if (dbSalt != null && dbSalt.Length > 0 && dbHash != null && dbHash.Length > 0)
                         {
-
-                            if (client.GetOneUser(email).AccountLockExpiry < DateTime.Now)
+                            string pwdWithSalt = pwd + dbSalt;
+                            byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
+                            string userHash = Convert.ToBase64String(hashWithSalt);
+                            if (userHash.Equals(dbHash))
                             {
-                                client.RemoveAccountLockOut(email);
 
-                                Session["UserEmail"] = email;
+                                if (client.GetOneUser(email).AccountLockExpiry < DateTime.Now)
+                                {
+                                    client.RemoveAccountLockOut(email);
+
+                                    Session["UserEmail"] = email;
 
 
-                                // Create a new GUID and save into the session
-                                string guidToken = Guid.NewGuid().ToString();
-                                Session["AuthCookie"] = guidToken;
+                                    // Create a new GUID and save into the session
+                                    string guidToken = Guid.NewGuid().ToString();
+                                    Session["AuthCookie"] = guidToken;
 
-                                // now create a new cookie with this guid value
-                                Response.Cookies.Add(new HttpCookie("AuthCookie", guidToken));
+                                    // now create a new cookie with this guid value
+                                    Response.Cookies.Add(new HttpCookie("AuthCookie", guidToken));
 
-                                Response.Redirect("UserPage.aspx", false);
+                                    Response.Redirect("UserPage.aspx", false);
+                                }
+
+                                else
+                                {
+                                    lbl_loginErrMsg.Text = $"Your account has been temporarily locked due to multiple failed attempts,\n It will be available after {client.GetOneUser(email).AccountLockExpiry}";
+                                    lbl_loginErrMsg.ForeColor = System.Drawing.Color.Red;
+                                }
+
+
                             }
+
+
 
                             else
                             {
-                                lbl_loginErrMsg.Text = $"Your account has been temporarily locked due to multiple failed attempts,\n It will be available after {client.GetOneUser(email).AccountLockExpiry}";
+                                // When password is wrong, but we still provide a generic error message
+                                lbl_loginErrMsg.Text = "Invalid Email or Password";
                                 lbl_loginErrMsg.ForeColor = System.Drawing.Color.Red;
+                                Session["LoginAttempts"] = Convert.ToInt32(Session["LoginAttempts"]) + 1;
                             }
-
-
                         }
-
-
 
                         else
                         {
-                            // When password is wrong, but we still provide a generic error message
+                            // When email is wrong
                             lbl_loginErrMsg.Text = "Invalid Email or Password";
                             lbl_loginErrMsg.ForeColor = System.Drawing.Color.Red;
                             Session["LoginAttempts"] = Convert.ToInt32(Session["LoginAttempts"]) + 1;
+                            //Response.Write(Session["LoginAttempts"].ToString());
                         }
                     }
-
-                    else
+                    catch (Exception ex)
                     {
-                        // When email is wrong
-                        lbl_loginErrMsg.Text = "Invalid Email or Password";
-                        lbl_loginErrMsg.ForeColor = System.Drawing.Color.Red;
-                        Session["LoginAttempts"] = Convert.ToInt32(Session["LoginAttempts"]) + 1;
-                        //Response.Write(Session["LoginAttempts"].ToString());
+                        throw new Exception(ex.ToString());
+                    }
+                    finally { }
+
+                }
+
+
+                // When there is no more login attempts available
+                else
+                {
+                    lbl_loginErrMsg.Text = "You are temporarily locked from accessing the login system due to multiple failed attempts, try again later.";
+
+                    var search_user = client.GetOneUser(tb_email.Text.Trim());
+
+                    if (search_user != null)
+                    {
+                        client.SetAccountLockOut(search_user.Email);
+                        //Response.Write($"SET LOG OUT FOR {search_user.FirstName} {search_user.LastName} {search_user.AccountLocked} {search_user.AccountLockExpiry}");
                     }
                 }
-                catch (Exception ex)
-                {
-                    throw new Exception(ex.ToString());
-                }
-                finally { }
 
             }
 
-
-            // When there is no more login attempts available
             else
             {
-                lbl_loginErrMsg.Text = "You are temporarily locked from accessing the login system due to multiple failed attempts, try again later.";
+                lbl_captchaScore.Text = "You did not pass the captcha validation";
+            }
+        }
+        public class MyObject
+        {
+            public string success { get; set; }
+            public List<string> ErrorMessage { get; set; }
+        }
+        public bool ValidateCaptcha_v3()
+        {
+            bool result = true;
 
-                var search_user = client.GetOneUser(tb_email.Text.Trim());
+            string captchaResponse = Request.Form["g-recaptcha-response"];
 
-                if (search_user != null)
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create
+                ("https://www.google.com/recaptcha/api/siteverify?secret=6Ld0mEkaAAAAAO-cLbvGeYkd7QyaB-aGXcLzAV1t &response=" + captchaResponse);
+            try
+            {
+                using (WebResponse wResponse = req.GetResponse())
                 {
-                    client.SetAccountLockOut(search_user.Email);
-                    //Response.Write($"SET LOG OUT FOR {search_user.FirstName} {search_user.LastName} {search_user.AccountLocked} {search_user.AccountLockExpiry}");
+                    using (StreamReader readStream = new StreamReader(wResponse.GetResponseStream()))
+                    {
+                        string jsonResponse = readStream.ReadToEnd();
+
+                        lbl_captchaScore.Text = jsonResponse.ToString();
+
+                        JavaScriptSerializer js = new JavaScriptSerializer();
+
+                        MyObject jsonObject = js.Deserialize<MyObject>(jsonResponse);
+
+                        result = Convert.ToBoolean(jsonObject.success);
+
+                    }
                 }
+                return result;
             }
 
+            catch (WebException ex)
+            {
+                throw ex;
+            }
         }
 
     }

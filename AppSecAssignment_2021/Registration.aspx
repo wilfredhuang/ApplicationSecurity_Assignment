@@ -288,7 +288,7 @@
                                 <asp:Label ID="lbl_dob" runat="server" Text="Date of Birth"></asp:Label>
                     </td>
                 <td class="auto-style2">
-                    <asp:TextBox ID="tb_dob" runat="server" placeholder="Date of Birth" type="date" ></asp:TextBox>
+                    <asp:TextBox ID="tb_dob" runat="server" placeholder="Date of Birth" type="date" min="1903-01-02" max="2004-02-05" ></asp:TextBox>
                 </td>
                 <td class="auto-style1">
                     &nbsp;</td>

@@ -18,6 +18,17 @@
         height: 26px;
         width: 147px;
     }
+        .auto-style7 {
+            width: 147px;
+            height: 20px;
+        }
+        .auto-style8 {
+            width: 206px;
+            height: 20px;
+        }
+        .auto-style9 {
+            height: 20px;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -64,6 +75,20 @@
             <td class="auto-style5">&nbsp;</td>
             <td class="auto-style4">&nbsp;</td>
             <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="auto-style5">&nbsp;</td>
+            <td class="auto-style4">
+             <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response"/></td>
+            <td>
+                <asp:Label ID="lbl_captchaScore" runat="server"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td class="auto-style7"></td>
+            <td class="auto-style8">
+            </td>
+            <td class="auto-style9"></td>
         </tr>
         <tr>
             <td class="auto-style5">&nbsp;</td>
