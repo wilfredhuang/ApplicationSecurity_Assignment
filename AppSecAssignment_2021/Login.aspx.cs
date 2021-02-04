@@ -175,7 +175,7 @@ namespace AppSecAssignment_2021
                     {
                         string jsonResponse = readStream.ReadToEnd();
 
-                        lbl_captchaScore.Text = jsonResponse.ToString();
+                        //lbl_captchaScore.Text = jsonResponse.ToString();
 
                         JavaScriptSerializer js = new JavaScriptSerializer();
 

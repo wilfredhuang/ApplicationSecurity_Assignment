@@ -92,6 +92,24 @@
 
             var check = true;
 
+
+
+            var lettersOnlyRegex = /^[A-Za-z]+$/;
+            if (lettersOnlyRegex.test(firstName) == 0) {
+                document.getElementById("lbl_fnFeedback").innerText = "Invalid input found! Only alphabets allowed"
+                document.getElementById("lbl_fnFeedback").style.color = "red";
+                document.getElementById("lbl_fnFeedback").style.display = "inline";
+                check = false;
+            }
+
+            if (lettersOnlyRegex.test(lastName) == 0) {
+                document.getElementById("lbl_lnFeedback").innerText = "Invalid input found! Only alphabets allowed"
+                document.getElementById("lbl_lnFeedback").style.color = "red";
+                document.getElementById("lbl_lnFeedback").style.display = "inline";
+                check = false;
+            }
+
+
             if (firstName.length == 0) {
                 document.getElementById("lbl_fnFeedback").innerText = "No input found!"
                 document.getElementById("lbl_fnFeedback").style.color = "red";
@@ -105,6 +123,7 @@
                 document.getElementById("lbl_lnFeedback").style.display = "inline";
                 check = false;
             }
+
 
             if (emailAddress.length == 0) {
                 document.getElementById("lbl_emailFeedback").innerText = "No input found!"

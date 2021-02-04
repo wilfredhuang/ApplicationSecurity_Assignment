@@ -141,6 +141,24 @@ namespace AppSecAssignment_2021
 
             var check = true;
 
+
+            if (Regex.IsMatch(firstName, "[^a-zA-z]"))
+            {
+                lbl_fnFeedback.Text = "Only uppercase and lowercase letters are allowed for name";
+                lbl_fnFeedback.ForeColor = Color.Red;
+                lbl_fnFeedback.Visible = true;
+                check = false;
+            }
+
+            if (Regex.IsMatch(lastName, "[^a-zA-z]"))
+            {
+                lbl_lnFeedback.Text = "Only uppercase and lowercase letters are allowed for name";
+                lbl_lnFeedback.ForeColor = Color.Red;
+                lbl_lnFeedback.Visible = true;
+                check = false;
+            }
+
+
             if (firstName.Length == 0)
             {
                 lbl_fnFeedback.Text = "Input required";
@@ -155,6 +173,9 @@ namespace AppSecAssignment_2021
                 lbl_lnFeedback.Visible = true;
                 check = false;
             }
+
+            
+
 
             if (emailAddress.Length == 0)
             {
