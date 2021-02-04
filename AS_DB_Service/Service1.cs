@@ -47,6 +47,24 @@ namespace AS_DB_Service
             return obj.SelectByEmail(email);
         }
 
+        public int SetAccountLockOut(string email)
+        {
+           User obj = new User();
+           return obj.SetAccountLockOut(email);
+        }
+
+        public int RemoveAccountLockOut(string email)
+        {
+            User obj = new User();
+            return obj.RemoveAccountLockOut(email);
+        }
+
+        public int ChangePassword(string email, string new_password_hash, string old_pw_hash, string password_hash_1, string password_hash_2)
+        {
+            User obj = new User();
+            return obj.ChangePassword(email, new_password_hash, old_pw_hash,  password_hash_1,  password_hash_2);
+        }
+
         public string getDBHash(string email)
         {
             User obj = new User();

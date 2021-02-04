@@ -235,6 +235,7 @@ namespace AppSecAssignment_2021
                 if (result == 1)
                 {
                     lbl_alertmsg.Text = "You have successfully been registered";
+                    Response.Redirect("~/Success.aspx");
 
                 }
                 else

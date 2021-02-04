@@ -13,5 +13,14 @@ namespace AppSecAssignment_2021
 
     public partial class Success
     {
+
+        /// <summary>
+        /// lbl_registerSuccess control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_registerSuccess;
     }
 }

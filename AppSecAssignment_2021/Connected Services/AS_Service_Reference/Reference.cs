@@ -84,6 +84,12 @@ namespace AppSecAssignment_2021.AS_Service_Reference {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime AccountLockExpiryField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool AccountLockedField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string CreditCardInfoField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -105,7 +111,19 @@ namespace AppSecAssignment_2021.AS_Service_Reference {
         private string LastNameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime PasswordAgeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime PasswordChangeCoolDownField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string PasswordHashField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PasswordHash_1Field;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PasswordHash_2Field;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string PasswordSaltField;
@@ -117,6 +135,32 @@ namespace AppSecAssignment_2021.AS_Service_Reference {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime AccountLockExpiry {
+            get {
+                return this.AccountLockExpiryField;
+            }
+            set {
+                if ((this.AccountLockExpiryField.Equals(value) != true)) {
+                    this.AccountLockExpiryField = value;
+                    this.RaisePropertyChanged("AccountLockExpiry");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool AccountLocked {
+            get {
+                return this.AccountLockedField;
+            }
+            set {
+                if ((this.AccountLockedField.Equals(value) != true)) {
+                    this.AccountLockedField = value;
+                    this.RaisePropertyChanged("AccountLocked");
+                }
             }
         }
         
@@ -212,6 +256,32 @@ namespace AppSecAssignment_2021.AS_Service_Reference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime PasswordAge {
+            get {
+                return this.PasswordAgeField;
+            }
+            set {
+                if ((this.PasswordAgeField.Equals(value) != true)) {
+                    this.PasswordAgeField = value;
+                    this.RaisePropertyChanged("PasswordAge");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime PasswordChangeCoolDown {
+            get {
+                return this.PasswordChangeCoolDownField;
+            }
+            set {
+                if ((this.PasswordChangeCoolDownField.Equals(value) != true)) {
+                    this.PasswordChangeCoolDownField = value;
+                    this.RaisePropertyChanged("PasswordChangeCoolDown");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public string PasswordHash {
             get {
                 return this.PasswordHashField;
@@ -220,6 +290,32 @@ namespace AppSecAssignment_2021.AS_Service_Reference {
                 if ((object.ReferenceEquals(this.PasswordHashField, value) != true)) {
                     this.PasswordHashField = value;
                     this.RaisePropertyChanged("PasswordHash");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string PasswordHash_1 {
+            get {
+                return this.PasswordHash_1Field;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PasswordHash_1Field, value) != true)) {
+                    this.PasswordHash_1Field = value;
+                    this.RaisePropertyChanged("PasswordHash_1");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string PasswordHash_2 {
+            get {
+                return this.PasswordHash_2Field;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PasswordHash_2Field, value) != true)) {
+                    this.PasswordHash_2Field = value;
+                    this.RaisePropertyChanged("PasswordHash_2");
                 }
             }
         }
@@ -280,6 +376,24 @@ namespace AppSecAssignment_2021.AS_Service_Reference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetOneUser", ReplyAction="http://tempuri.org/IService1/GetOneUserResponse")]
         System.Threading.Tasks.Task<AppSecAssignment_2021.AS_Service_Reference.User> GetOneUserAsync(string email);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/SetAccountLockOut", ReplyAction="http://tempuri.org/IService1/SetAccountLockOutResponse")]
+        int SetAccountLockOut(string email);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/SetAccountLockOut", ReplyAction="http://tempuri.org/IService1/SetAccountLockOutResponse")]
+        System.Threading.Tasks.Task<int> SetAccountLockOutAsync(string email);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/RemoveAccountLockOut", ReplyAction="http://tempuri.org/IService1/RemoveAccountLockOutResponse")]
+        int RemoveAccountLockOut(string email);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/RemoveAccountLockOut", ReplyAction="http://tempuri.org/IService1/RemoveAccountLockOutResponse")]
+        System.Threading.Tasks.Task<int> RemoveAccountLockOutAsync(string email);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ChangePassword", ReplyAction="http://tempuri.org/IService1/ChangePasswordResponse")]
+        int ChangePassword(string email, string new_password_hash, string old_pw_hash, string password_hash_1, string password_hash_2);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ChangePassword", ReplyAction="http://tempuri.org/IService1/ChangePasswordResponse")]
+        System.Threading.Tasks.Task<int> ChangePasswordAsync(string email, string new_password_hash, string old_pw_hash, string password_hash_1, string password_hash_2);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/getDBHash", ReplyAction="http://tempuri.org/IService1/getDBHashResponse")]
         string getDBHash(string email);
@@ -359,6 +473,30 @@ namespace AppSecAssignment_2021.AS_Service_Reference {
         
         public System.Threading.Tasks.Task<AppSecAssignment_2021.AS_Service_Reference.User> GetOneUserAsync(string email) {
             return base.Channel.GetOneUserAsync(email);
+        }
+        
+        public int SetAccountLockOut(string email) {
+            return base.Channel.SetAccountLockOut(email);
+        }
+        
+        public System.Threading.Tasks.Task<int> SetAccountLockOutAsync(string email) {
+            return base.Channel.SetAccountLockOutAsync(email);
+        }
+        
+        public int RemoveAccountLockOut(string email) {
+            return base.Channel.RemoveAccountLockOut(email);
+        }
+        
+        public System.Threading.Tasks.Task<int> RemoveAccountLockOutAsync(string email) {
+            return base.Channel.RemoveAccountLockOutAsync(email);
+        }
+        
+        public int ChangePassword(string email, string new_password_hash, string old_pw_hash, string password_hash_1, string password_hash_2) {
+            return base.Channel.ChangePassword(email, new_password_hash, old_pw_hash, password_hash_1, password_hash_2);
+        }
+        
+        public System.Threading.Tasks.Task<int> ChangePasswordAsync(string email, string new_password_hash, string old_pw_hash, string password_hash_1, string password_hash_2) {
+            return base.Channel.ChangePasswordAsync(email, new_password_hash, old_pw_hash, password_hash_1, password_hash_2);
         }
         
         public string getDBHash(string email) {

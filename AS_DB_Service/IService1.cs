@@ -32,6 +32,17 @@ namespace AS_DB_Service
 
         User GetOneUser(string email);
 
+        [OperationContract]
+
+        int SetAccountLockOut(string email);
+
+        [OperationContract]
+
+        int RemoveAccountLockOut(string email);
+
+        [OperationContract]
+
+        int ChangePassword(string email, string new_password_hash, string old_pw_hash, string password_hash_1, string password_hash_2);
 
         [OperationContract]
 

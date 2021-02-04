@@ -11,16 +11,25 @@ namespace AppSecAssignment_2021
 {
 
 
-    public partial class WebForm3
+    public partial class WebForm5
     {
 
         /// <summary>
-        /// lbl_logoutMsg control.
+        /// lbl_userPageTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl_logoutMsg;
+        protected global::System.Web.UI.WebControls.Label lbl_userPageTitle;
+
+        /// <summary>
+        /// btn_redirect_changePwd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_redirect_changePwd;
     }
 }

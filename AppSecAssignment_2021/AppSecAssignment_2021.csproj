@@ -83,8 +83,12 @@
     <Content Include="CustomError\HTTP403.html" />
     <Content Include="CustomError\HTTP404.html" />
     <Content Include="CustomError\HTTP500.html" />
+    <Content Include="Images\nyp_sit_logo.jpg" />
     <Content Include="Logout.aspx" />
     <Content Include="Home.aspx" />
+    <Content Include="UserPage.aspx" />
+    <Content Include="ChangePassword.aspx" />
+    <Content Include="PasswordExpired.aspx" />
     <None Include="Connected Services\AS_Service_Reference\AS_DB_Service.Entity.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -151,6 +155,27 @@
     </Compile>
     <Compile Include="Home.aspx.designer.cs">
       <DependentUpon>Home.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserPage.aspx.cs">
+      <DependentUpon>UserPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserPage.aspx.designer.cs">
+      <DependentUpon>UserPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ChangePassword.aspx.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ChangePassword.aspx.designer.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PasswordExpired.aspx.cs">
+      <DependentUpon>PasswordExpired.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PasswordExpired.aspx.designer.cs">
+      <DependentUpon>PasswordExpired.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

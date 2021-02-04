@@ -36,6 +36,35 @@ namespace AS_DB_Service.Entity
 
         public DateTime DOB { get; set; }
 
+        // For advanced feature
+
+        // Account status
+        public bool AccountLocked { get; set; }
+
+        // Account Lock Expiry DateTime
+        public DateTime AccountLockExpiry { get; set; }
+
+        // Minimum Password Age
+        public DateTime PasswordChangeCoolDown { get; set; }
+
+        // Maximum Password Age
+
+        public DateTime PasswordAge { get; set;
+        
+        }
+
+        // Password History
+
+        public string PasswordHash_1
+        {
+            get; set;
+        }
+
+        public string PasswordHash_2
+        {
+            get; set;
+        }
+
 
         // End
 
@@ -57,6 +86,27 @@ namespace AS_DB_Service.Entity
             IV = iv;
             Key = key;
             DOB = dob;
+
+        }
+
+        public User(string firstname, string lastname, string passwordhash, string passwordsalt, string email, string creditcardinfo, string iv, string key, DateTime dob
+            , bool accountlocked, DateTime accountlockexpiry, DateTime passwordchangecooldown, DateTime passwordage, string passwordhash_1, string passwordhash_2)
+        {
+            FirstName = firstname;
+            LastName = lastname;
+            PasswordHash = passwordhash;
+            PasswordSalt = passwordsalt;
+            Email = email;
+            CreditCardInfo = creditcardinfo;
+            IV = iv;
+            Key = key;
+            DOB = dob;
+            AccountLocked = accountlocked;
+            AccountLockExpiry = accountlockexpiry;
+            PasswordChangeCoolDown = passwordchangecooldown;
+            PasswordAge = passwordage;
+            PasswordHash_1 = passwordhash_1;
+            PasswordHash_2 = passwordhash_2;
 
         }
 
@@ -95,7 +145,42 @@ namespace AS_DB_Service.Entity
                 string Key = row["key"].ToString();
                 DateTime DOB = Convert.ToDateTime(row["dob"]);
 
-                user = new User(FirstName, LastName, PasswordHash, PasswordSalt, Email, CreditCardInfo, IV, Key, DOB);
+              
+                Boolean AccountLocked = Convert.ToBoolean(row["account_lock"]);
+
+                DateTime AccountLockExpiry = DateTime.Now.AddDays(-365);
+
+                // By Default No CoolDown
+                DateTime PasswordChangeCoolDown = DateTime.Now.AddMinutes(-5);
+
+                // By Default have maximum pwd age
+                DateTime PasswordAge = DateTime.Now.AddMinutes(15);
+
+
+                if (row["account_lock_expiry"] != DBNull.Value)
+                {
+                    AccountLockExpiry = Convert.ToDateTime(row["account_lock_expiry"]);
+                }
+
+
+                if (row["password_min_age"] != DBNull.Value )
+                {
+                    PasswordChangeCoolDown = Convert.ToDateTime(row["password_min_age"]);
+                }
+
+                if (row["password_max_age"] != DBNull.Value)
+                {
+                    PasswordAge = Convert.ToDateTime(row["password_max_age"]);
+                }
+
+
+                string PasswordHash_1 = row["password_hash_1"].ToString();
+                string PasswordHash_2 = row["password_hash_2"].ToString();
+
+                user = new User(FirstName, LastName, PasswordHash, PasswordSalt, 
+                    Email, CreditCardInfo, IV, Key, DOB,
+                    AccountLocked, AccountLockExpiry, PasswordChangeCoolDown, PasswordAge
+                    , PasswordHash_1, PasswordHash_2);
             }
             return user;
         }
@@ -148,8 +233,8 @@ namespace AS_DB_Service.Entity
             SqlConnection myConn = new SqlConnection(DBConnect);
 
             // Step 2 - Create a SqlCommand object to add record with INSERT statement
-            string sqlStmt = "INSERT INTO [User] (first_name, last_name, password_hash, password_salt, email, credit_card_info, iv, [key], dob)" +
-                "VALUES (@paraFirstName, @paraLastName, @paraPasswordHash, @paraPasswordSalt, @paraEmail, @paraCreditCardInfo, @paraIV, @paraKey, @paraDOB)";
+            string sqlStmt = "INSERT INTO [User] (first_name, last_name, password_hash, password_salt, email, credit_card_info, iv, [key], dob, account_lock, password_max_age)" +
+                "VALUES (@paraFirstName, @paraLastName, @paraPasswordHash, @paraPasswordSalt, @paraEmail, @paraCreditCardInfo, @paraIV, @paraKey, @paraDOB, @paraAccLock, @paraPWDMaxAge)";
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             // Step 3 : Add each parameterised variable with value
@@ -162,6 +247,8 @@ namespace AS_DB_Service.Entity
             sqlCmd.Parameters.AddWithValue("@paraIV", IV);
             sqlCmd.Parameters.AddWithValue("@paraKey", Key);
             sqlCmd.Parameters.AddWithValue("@paraDOB", DOB.ToShortDateString());
+            sqlCmd.Parameters.AddWithValue("@paraAccLock", 0);
+            sqlCmd.Parameters.AddWithValue("@paraPWDMaxAge", DateTime.Now.AddMinutes(15));
 
             // Step 4 Open connection the execute NonQuery of sql command   
             myConn.Open();
@@ -172,6 +259,134 @@ namespace AS_DB_Service.Entity
 
             return result;
         }
+
+
+        public int SetAccountLockOut(string email)
+        {
+            //Step 1 -  Define a connection to the database by getting
+            //          the connection string from App.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["AS_DB"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            // Step 2 - Create a SqlCommand object to add record with INSERT statement
+            //string sqlStmt = "INSERT INTO [User] (first_name, last_name, password_hash, password_salt, email, credit_card_info, iv, [key], dob)" +
+            //"VALUES (@paraFirstName, @paraLastName, @paraPasswordHash, @paraPasswordSalt, @paraEmail, @paraCreditCardInfo, @paraIV, @paraKey, @paraDOB)";
+
+            // Enable Lockout
+      
+            var sqlStmt = "UPDATE [User] SET account_lock = @paraAccLock, account_lock_expiry = @paraLockedTime where email =  @paraEmail";
+            var lockout_time = DateTime.Now.AddMinutes(5);
+
+
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            // Step 3 : Add each parameterised variable with value
+            // Set the lock out time for the account for 5 minutes for the assignment
+
+
+            sqlCmd.Parameters.AddWithValue("@paraAccLock", true);
+            sqlCmd.Parameters.AddWithValue("@paraLockedTime", lockout_time);
+            sqlCmd.Parameters.AddWithValue("@paraEmail", email);
+       
+
+            // Step 4 Open connection the execute NonQuery of sql command   
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            // Step 5 :Close connection
+            myConn.Close();
+
+            return result;
+        }
+
+
+        public int RemoveAccountLockOut(string email)
+        {
+            //Step 1 -  Define a connection to the database by getting
+            //          the connection string from App.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["AS_DB"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            // Step 2 - Create a SqlCommand object to add record with INSERT statement
+
+            string sqlStmt = "UPDATE [User] SET account_lock = @paraAccLock, account_lock_expiry = @paraLockExpiry where email =  @paraEmail";
+
+
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            // Step 3 : Add each parameterised variable with value
+
+
+            sqlCmd.Parameters.AddWithValue("@paraAccLock", false);
+            sqlCmd.Parameters.AddWithValue("@paraLockExpiry", DateTime.Now.AddDays(-365));
+            sqlCmd.Parameters.AddWithValue("@paraEmail", email);
+
+
+            // Step 4 Open connection the execute NonQuery of sql command   
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            // Step 5 :Close connection
+            myConn.Close();
+
+            return result;
+        }
+
+
+        public int ChangePassword(string email, string new_password_hash, string old_password_hash, string password_hash_1, string password_hash_2)
+        {
+            //Step 1 -  Define a connection to the database by getting
+            //          the connection string from App.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["AS_DB"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            // Step 2 - Create a SqlCommand object to add record with INSERT statement
+            //string sqlStmt = "INSERT INTO [User] (first_name, last_name, password_hash, password_salt, email, credit_card_info, iv, [key], dob)" +
+            //"VALUES (@paraFirstName, @paraLastName, @paraPasswordHash, @paraPasswordSalt, @paraEmail, @paraCreditCardInfo, @paraIV, @paraKey, @paraDOB)";
+
+            string sqlStmt;
+
+            // If there was an existing password history...
+            // Do the changes to re-assign the values
+            if (password_hash_1 != null)
+            {
+                sqlStmt = "UPDATE [User] SET password_hash = @paraNewPWDHash, password_min_age = @paraPWDMinAge, password_max_age = @paraPWDMaxAge, password_hash_1 = @paraPWDOld1, password_hash_2 = @paraPWDOld2  where email =  @paraEmail";
+            }
+
+            else
+            {
+                sqlStmt = "UPDATE [User] SET password_hash = @paraNewPWDHash, password_min_age = @paraPWDMinAge, password_max_age = @paraPWDMaxAge, password_hash_1 = @paraPWDOld1 where email =  @paraEmail";
+            }
+
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+
+            // Step 3 : Add each parameterised variable with value
+            sqlCmd.Parameters.AddWithValue("@paraNewPWDHash", new_password_hash);
+            sqlCmd.Parameters.AddWithValue("@paraPWDMinAge", DateTime.Now.AddMinutes(5));
+            sqlCmd.Parameters.AddWithValue("@paraPWDMaxAge", DateTime.Now.AddMinutes(15));
+            sqlCmd.Parameters.AddWithValue("@paraEmail", email);
+            sqlCmd.Parameters.AddWithValue("@paraPWDOld1", old_password_hash);
+            
+            if (password_hash_1 != null)
+            {
+                sqlCmd.Parameters.AddWithValue("@paraPWDOld2", password_hash_1);
+            }
+
+
+
+
+            // Step 4 Open connection the execute NonQuery of sql command   
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            // Step 5 :Close connection
+            myConn.Close();
+
+            return result;
+        }
+
+
 
         public string getDBHash(string email)
         {

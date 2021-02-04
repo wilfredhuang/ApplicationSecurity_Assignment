@@ -8,6 +8,8 @@
   <xs:element name="ArrayOfUser" nillable="true" type="tns:ArrayOfUser" />
   <xs:complexType name="User">
     <xs:sequence>
+      <xs:element minOccurs="0" name="AccountLockExpiry" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="AccountLocked" type="xs:boolean" />
       <xs:element minOccurs="0" name="CreditCardInfo" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="DOB" type="xs:dateTime" />
       <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
@@ -15,7 +17,11 @@
       <xs:element minOccurs="0" name="IV" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Key" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="LastName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PasswordAge" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="PasswordChangeCoolDown" type="xs:dateTime" />
       <xs:element minOccurs="0" name="PasswordHash" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PasswordHash_1" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PasswordHash_2" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="PasswordSalt" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>

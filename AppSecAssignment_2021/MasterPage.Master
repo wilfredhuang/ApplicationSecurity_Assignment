@@ -19,26 +19,28 @@
         <div class="container-fluid">  
             <!--Navbar Header Start Here-->  
             <div class="navbar-header">  
-                <a class="navbar-brand" href="#">SITConnect </a>  
+                <a class="navbar-brand" href="#">SITConnect </a>
             </div>  
             <!--Navbar Header End Here-->  
             <!--Menu Start Here-->  
-            <ul class="nav navbar-nav">  
-                <li class=""><a href="#">Home</a></li>
-                    <%
+                                <%
                         if(Session["UserEmail"] == null)
                     {%>
-
+                <ul class="nav navbar-nav">  
+                <li class="Home.aspx"><a href="#">Home</a></li>
                 <li><a href="Login.aspx">Login </a></li>  
-
+                                <li><a href="Registration.aspx">Register</a></li> 
                     <% } 
                     else 
                     {
                     %>
+                <ul class="nav navbar-nav">  
+                <li class=""><a href="#">Home</a></li>
+                <li class=""><a href="UserPage.aspx">User Page</a></li>
                 <li><a href="Logout.aspx">Logout </a></li>  
                     <% } %>
 
-                <li><a href="Registration.aspx">Register</a></li>   
+  
             </ul>  
             <!--Menu End Here-->  
         </div>  

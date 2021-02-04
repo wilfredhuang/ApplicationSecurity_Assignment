@@ -2,4 +2,10 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+    <div class="container">
+        <asp:Label ID="lbl_logoutMsg" runat="server" Text="You have logged out of the current session."></asp:Label>
+    </div>
+
+
 </asp:Content>
